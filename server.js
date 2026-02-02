@@ -7,4 +7,24 @@ const morgan = require('morgan')
 const tracksController = require('./controllers/track.controller.js')
 const cors = require('cors')
 
-const app = express()
+const app = express();
+
+app.use(cors());
+mongoose.connect(process.MONGODB_URI)
+
+mongoose.connection.on("connected", () => {
+    console.log(`Connected to mongodb on ${mongoose.connection.name}`)
+})
+
+app.use(morgan("tiny"))
+
+// Routes here
+
+
+
+
+
+
+app.use("/tracks", tracksController)
+
+app.listen("3000", () => console.log("Here on 3k"))
