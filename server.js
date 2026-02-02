@@ -10,7 +10,7 @@ const cors = require('cors')
 const app = express();
 
 app.use(cors());
-mongoose.connect(process.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI)
 
 mongoose.connection.on("connected", () => {
     console.log(`Connected to mongodb on ${mongoose.connection.name}`)
@@ -20,9 +20,15 @@ app.use(morgan("tiny"))
 
 // Routes here
 
+app.get("/", (req, res) => {
+    res.json({ message: "test test test" })
+})
 
+mongoose.connection.on("error", (error) => {
+    console.log(`Error with ${error.message}`)
+})
 
-
+app.use(express.json())
 
 
 app.use("/tracks", tracksController)
